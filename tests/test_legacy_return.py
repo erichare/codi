@@ -29,9 +29,7 @@ from codi.cogs.crypto import _parse_legacy_call
         (("PREDICTIONS", "BtC"), ("BtC", "predictions", "short")),
     ],
 )
-def test_parse_legacy_call_success(
-    tokens: tuple[str, ...], expected: tuple[str, str, str]
-) -> None:
+def test_parse_legacy_call_success(tokens: tuple[str, ...], expected: tuple[str, str, str]) -> None:
     assert _parse_legacy_call(tokens) == expected
 
 

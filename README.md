@@ -1,5 +1,7 @@
 # codi
 
+[![CI](https://github.com/erichare/codi/actions/workflows/ci.yml/badge.svg)](https://github.com/erichare/codi/actions/workflows/ci.yml)
+
 A modern Discord bot with two pluggable **personalities**. Run them as a single
 process or as two independent bots.
 
@@ -116,13 +118,30 @@ Prefix commands are also available: `!mode`, `!mode ai`, `!mode uplift`,
 ## Development
 
 ```bash
-pytest            # run the test suite
-ruff check .      # lint
-ruff format .     # format
+pytest                           # run the test suite (~50 tests, ~0.5s)
+pytest --cov                     # run with coverage report
+ruff check .                     # lint
+ruff format .                    # format
 ```
 
-Tests use `pytest-httpx` to stub HTTP calls for the crypto and Pokemon clients,
-so nothing hits the network.
+Tests use `pytest-httpx` to stub HTTP calls for the crypto and Pokemon clients
+and `unittest.mock` for the Anthropic client, so nothing hits the network.
+
+**CI** runs on every push and PR: `ruff check`, `ruff format --check`, `pytest`
+across Python 3.11 / 3.12 / 3.13, and a coverage gate (≥60% overall; the
+service layer sits above 80%). See [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+## Docker
+
+```bash
+docker build -t codi .
+docker run --rm --env-file .env codi
+# or one personality at a time:
+docker run --rm --env-file .env codi --personality wooloo
+```
+
+The image runs as a non-root user and only contains runtime dependencies
+(multi-stage build).
 
 ## Extending
 

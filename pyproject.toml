@@ -49,3 +49,23 @@ ignore = ["S101"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["src/codi"]
+omit = [
+    # Thin glue over discord.py — hard to meaningfully unit test.
+    "src/codi/__main__.py",
+    "src/codi/bot.py",
+    # Personality.setup/teardown is just wiring; exercised via integration only.
+    "src/codi/personalities/codi.py",
+    "src/codi/personalities/wooloo.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+show_missing = true

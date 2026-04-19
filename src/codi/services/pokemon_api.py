@@ -64,10 +64,9 @@ class PokemonApiClient:
         r.raise_for_status()
         data = r.json()
         sprites = data.get("sprites") or {}
-        sprite = (
-            (sprites.get("other") or {}).get("official-artwork", {}).get("front_default")
-            or sprites.get("front_default")
-        )
+        sprite = (sprites.get("other") or {}).get("official-artwork", {}).get(
+            "front_default"
+        ) or sprites.get("front_default")
         return Pokemon(
             id=int(data["id"]),
             name=str(data["name"]),

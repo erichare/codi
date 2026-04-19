@@ -87,10 +87,7 @@ async def test_latest_chart_404_raises(httpx_mock) -> None:
 
 @pytest.mark.asyncio
 async def test_latest_chart_retries_then_succeeds_on_5xx(httpx_mock) -> None:
-    url = (
-        "https://example.test/api/v1/predictions/by-coin/bitcoin/latest"
-        "?horizon=short&months=12"
-    )
+    url = "https://example.test/api/v1/predictions/by-coin/bitcoin/latest?horizon=short&months=12"
     httpx_mock.add_response(url=url, status_code=502)
     httpx_mock.add_response(url=url, status_code=503)
     httpx_mock.add_response(
@@ -105,10 +102,7 @@ async def test_latest_chart_retries_then_succeeds_on_5xx(httpx_mock) -> None:
 
 @pytest.mark.asyncio
 async def test_latest_chart_persistent_5xx_raises_friendly_error(httpx_mock) -> None:
-    url = (
-        "https://example.test/api/v1/predictions/by-coin/bitcoin/latest"
-        "?horizon=short&months=12"
-    )
+    url = "https://example.test/api/v1/predictions/by-coin/bitcoin/latest?horizon=short&months=12"
     for _ in range(3):
         httpx_mock.add_response(url=url, status_code=502)
     async with CryptoApiClient("https://example.test") as api:
@@ -122,10 +116,7 @@ async def test_latest_chart_persistent_5xx_raises_friendly_error(httpx_mock) -> 
 async def test_latest_chart_network_error_raises_friendly(httpx_mock) -> None:
     import httpx
 
-    url = (
-        "https://example.test/api/v1/predictions/by-coin/bitcoin/latest"
-        "?horizon=short&months=12"
-    )
+    url = "https://example.test/api/v1/predictions/by-coin/bitcoin/latest?horizon=short&months=12"
     for _ in range(3):
         httpx_mock.add_exception(httpx.ConnectError("boom"), url=url)
     async with CryptoApiClient("https://example.test") as api:

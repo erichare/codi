@@ -14,9 +14,7 @@ def get_personality(name: str) -> type[Personality]:
     try:
         return _REGISTRY[name]
     except KeyError as exc:
-        raise ValueError(
-            f"Unknown personality {name!r}. Known: {sorted(_REGISTRY)}"
-        ) from exc
+        raise ValueError(f"Unknown personality {name!r}. Known: {sorted(_REGISTRY)}") from exc
 
 
 __all__ = ["Personality", "CodiPersonality", "WoolooPersonality", "get_personality"]

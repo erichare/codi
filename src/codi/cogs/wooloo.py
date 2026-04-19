@@ -65,14 +65,11 @@ class WoolooCog(commands.Cog, name="Wooloo"):
 
         normalized = new_mode.strip().lower()
         if normalized not in _ALLOWED_MODES:
-            await ctx.reply(
-                f"Mode must be one of: {', '.join(f'`{m}`' for m in _ALLOWED_MODES)}."
-            )
+            await ctx.reply(f"Mode must be one of: {', '.join(f'`{m}`' for m in _ALLOWED_MODES)}.")
             return
         if normalized == "ai" and not self.ai.is_available:
             await ctx.reply(
-                "AI mode isn't configured on this bot — "
-                "ask the admin to set `ANTHROPIC_API_KEY`."
+                "AI mode isn't configured on this bot — ask the admin to set `ANTHROPIC_API_KEY`."
             )
             return
 
@@ -84,9 +81,7 @@ class WoolooCog(commands.Cog, name="Wooloo"):
         await ctx.reply(f"Baaa~ now in **{normalized}** mode. 🐑")
 
     @commands.command(name="pokemon", aliases=("poke",))
-    async def pokemon_lookup(
-        self, ctx: commands.Context, *, name_or_id: str
-    ) -> None:
+    async def pokemon_lookup(self, ctx: commands.Context, *, name_or_id: str) -> None:
         """Show basic info about a Pokemon by name or Pokedex ID."""
         try:
             poke = await self.pokemon.get_pokemon(name_or_id)
@@ -117,7 +112,7 @@ class WoolooCog(commands.Cog, name="Wooloo"):
         # Sub-commands embedded in mentions: "@wooloo mode ai" / "@wooloo pokemon wooloo".
         lowered = text.lower()
         if lowered.startswith("mode"):
-            await self._handle_inline_mode(message, text[len("mode"):].strip())
+            await self._handle_inline_mode(message, text[len("mode") :].strip())
             return
         if lowered.startswith(("pokemon ", "poke ")):
             _, _, rest = text.partition(" ")
@@ -144,9 +139,7 @@ class WoolooCog(commands.Cog, name="Wooloo"):
                 return
         await message.reply(reply)
 
-    async def _handle_inline_mode(
-        self, message: discord.Message, arg: str
-    ) -> None:
+    async def _handle_inline_mode(self, message: discord.Message, arg: str) -> None:
         if not arg:
             current = self._mode_for(message.guild)
             await message.reply(f"Baaa~ currently in **{current}** mode.")
@@ -168,9 +161,7 @@ class WoolooCog(commands.Cog, name="Wooloo"):
         self._set_mode(message.guild, normalized)  # type: ignore[arg-type]
         await message.reply(f"Baaa~ now in **{normalized}** mode. 🐑")
 
-    async def _handle_inline_pokemon(
-        self, message: discord.Message, name: str
-    ) -> None:
+    async def _handle_inline_pokemon(self, message: discord.Message, name: str) -> None:
         if not name:
             await message.reply("Tell me which Pokemon to look up, e.g. `@Wooloo pokemon pikachu`.")
             return
@@ -183,9 +174,7 @@ class WoolooCog(commands.Cog, name="Wooloo"):
 
     # ── error handling ────────────────────────────────────────────
 
-    async def cog_command_error(
-        self, ctx: commands.Context, error: commands.CommandError
-    ) -> None:
+    async def cog_command_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
         if isinstance(error, commands.UserInputError):
             await ctx.reply(f"⚠️ {error}")
             return

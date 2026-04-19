@@ -114,9 +114,7 @@ class CryptoApiClient:
             raise RuntimeError("CryptoApiClient must be used as an async context manager.")
         return self._client
 
-    async def _request(
-        self, method: str, path: str, **kwargs: object
-    ) -> httpx.Response:
+    async def _request(self, method: str, path: str, **kwargs: object) -> httpx.Response:
         """Retry transient network/5xx failures, then convert to CryptoApiError."""
         client = self._require_client()
         delay = _INITIAL_BACKOFF_SECONDS
@@ -149,9 +147,7 @@ class CryptoApiClient:
                 f"Crypto API returned {response.status_code}{suffix}. "
                 "It's probably waking up or under load — try again in a few seconds."
             )
-        raise CryptoApiError(
-            f"Crypto API returned {response.status_code}{suffix}."
-        )
+        raise CryptoApiError(f"Crypto API returned {response.status_code}{suffix}.")
 
     async def health(self) -> dict[str, object]:
         r = await self._request("GET", "/api/v1/health")
@@ -173,9 +169,7 @@ class CryptoApiClient:
     async def get_prices(self, coin: str) -> list[PricePoint]:
         """Return historical daily prices (USD) for *coin*, oldest first."""
         coin_id = normalize_coin(coin)
-        r = await self._request(
-            "GET", f"/api/v1/coins/{quote(coin_id, safe='')}/prices"
-        )
+        r = await self._request("GET", f"/api/v1/coins/{quote(coin_id, safe='')}/prices")
         if r.status_code == 404:
             raise CryptoApiError(f"Unknown coin: {coin_id!r}")
         self._ensure_ok(r, context=f"prices/{coin_id}")

@@ -53,9 +53,7 @@ def main(argv: list[str] | None = None) -> int:
 
     # Single-personality mode: validate its token exists first.
     get_personality(args.personality)  # raises on unknown
-    token = (
-        settings.codi_bot_token if args.personality == "codi" else settings.wooloo_bot_token
-    )
+    token = settings.codi_bot_token if args.personality == "codi" else settings.wooloo_bot_token
     if token is None or not token.get_secret_value():
         print(
             f"error: no bot token for {args.personality!r} — "

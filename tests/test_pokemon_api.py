@@ -21,11 +21,7 @@ async def test_get_pokemon_parses_payload(httpx_mock) -> None:
             ],
             "sprites": {
                 "front_default": "https://img.test/wooloo.png",
-                "other": {
-                    "official-artwork": {
-                        "front_default": "https://img.test/wooloo_art.png"
-                    }
-                },
+                "other": {"official-artwork": {"front_default": "https://img.test/wooloo_art.png"}},
             },
         },
     )

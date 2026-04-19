@@ -23,9 +23,7 @@ class WoolooAI:
 
     def __init__(self, api_key: str | None, model: str) -> None:
         self._model = model
-        self._client: AsyncAnthropic | None = (
-            AsyncAnthropic(api_key=api_key) if api_key else None
-        )
+        self._client: AsyncAnthropic | None = AsyncAnthropic(api_key=api_key) if api_key else None
 
     @property
     def is_available(self) -> bool:
@@ -33,9 +31,7 @@ class WoolooAI:
 
     async def reply(self, user_message: str, *, max_tokens: int = 400) -> str:
         if self._client is None:
-            raise AnthropicError(
-                "AI mode is not configured — set ANTHROPIC_API_KEY to enable it."
-            )
+            raise AnthropicError("AI mode is not configured — set ANTHROPIC_API_KEY to enable it.")
         messages: list[MessageParam] = [{"role": "user", "content": user_message}]
         response = await self._client.messages.create(
             model=self._model,

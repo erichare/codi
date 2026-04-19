@@ -157,9 +157,7 @@ class CryptoCog(commands.Cog, name="Crypto"):
 
     # ── error handling ────────────────────────────────────────────
 
-    async def cog_command_error(
-        self, ctx: commands.Context, error: commands.CommandError
-    ) -> None:
+    async def cog_command_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
         if isinstance(error, commands.UserInputError):
             await ctx.reply(f"⚠️ {error}")
             return
@@ -188,9 +186,7 @@ def _coins_embed(items: list[CoinInfo]) -> discord.Embed:
 _SHORT_TERMS = frozenset({"short", "shortterm", "short-term", "near", "nearterm"})
 _LONG_TERMS = frozenset({"long", "longterm", "long-term", "far", "farterm"})
 _PRICE_WORDS = frozenset({"price", "prices"})
-_PREDICTION_WORDS = frozenset(
-    {"prediction", "predictions", "forecast", "forecasts", "predict"}
-)
+_PREDICTION_WORDS = frozenset({"prediction", "predictions", "forecast", "forecasts", "predict"})
 
 
 def _classify_token(token: str) -> tuple[str, str]:
